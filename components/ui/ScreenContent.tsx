@@ -1,21 +1,11 @@
-import { Text, View } from 'react-native';
-
-import { EditScreenInfo } from './EditScreenInfo';
+import clsx from 'clsx';
+import { View } from 'react-native';
 
 type ScreenContentProps = {
-  title: string;
-  path: string;
   children?: React.ReactNode;
+  className?: string;
 };
 
-export const ScreenContent = ({ title, path, children }: ScreenContentProps) => {
-  return (
-    <View className="flex-1 items-center justify-center bg-slate-800 px-8">
-      {/* <Text className={styles.title}>{title}</Text>
-      <View className={styles.separator} />
-      <EditScreenInfo path={path} /> */}
-      {children}
-    </View>
-  );
+export const ScreenContent = ({ children, className }: ScreenContentProps) => {
+  return <View className={clsx(' flex-1 items-center justify-center', className)}>{children}</View>;
 };
-

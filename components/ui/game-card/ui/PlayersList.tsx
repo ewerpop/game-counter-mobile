@@ -1,6 +1,6 @@
 import { UIText } from 'components/ui/text';
 import { FunctionComponent, useMemo } from 'react';
-import { FlatList, View } from 'react-native';
+import { View, ScrollView } from 'react-native';
 
 interface Player {
   id: number;
@@ -9,6 +9,7 @@ interface Player {
 }
 interface PlayersListProps {
   data: Player[];
+  cardId: any;
 }
 const Data = [
   { id: 1, name: 'Player 1', count: 22233 },
@@ -21,13 +22,13 @@ const Data = [
   { id: 37, name: 'Player 3', count: 12 },
 ];
 
-export const PlayersList: FunctionComponent<PlayersListProps> = ({ data = Data }) => {
+export const PlayersList: FunctionComponent<PlayersListProps> = ({ data = Data, cardId }) => {
   const sortedData = useMemo(() => data.sort((a, b) => b.count - a.count), [data]);
+  if (data.length === 0) return <UIText size="body2">No players</UIText>;
   return (
-    <FlatList
-      data={sortedData}
-      renderItem={({ item }) => (
-        <View className="mb-1 w-[100%] flex-row justify-between border-b-2">
+    <ScrollView key={cardId} showsVerticalScrollIndicator={false}>
+      {sortedData.map((item) => (
+        <View className="mb-1 w-[100%] flex-row justify-between border-b-2" key={item.id}>
           <UIText
             className="line-clamp-1 w-[65%] overflow-hidden text-ellipsis text-nowrap"
             size="body2">
@@ -39,9 +40,8 @@ export const PlayersList: FunctionComponent<PlayersListProps> = ({ data = Data }
             {item.count}
           </UIText>
         </View>
-      )}
-      keyExtractor={(item) => item.id.toString()}
-    />
+      ))}
+    </ScrollView>
   );
 };
 
